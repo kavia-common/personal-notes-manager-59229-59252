@@ -1,82 +1,65 @@
-# Lightweight React Template for KAVIA
+# Notes Frontend (React)
 
-This project provides a minimal React template with a clean, modern UI and minimal dependencies.
+A clean, lightweight React app for creating, editing, and managing personal notes. It uses functional components and a small set of utilities. The app currently stores notes in localStorage when no backend is configured and exposes a generic API client ready to integrate with the `notes_database` backend.
 
 ## Features
 
-- **Lightweight**: No heavy UI frameworks - uses only vanilla CSS and React
-- **Modern UI**: Clean, responsive design with KAVIA brand styling
-- **Fast**: Minimal dependencies for quick loading times
-- **Simple**: Easy to understand and modify
+- Notes CRUD UI: list, search, create, edit (auto-save + manual save), delete
+- Two-column responsive layout (sidebar list + main editor)
+- Light/Dark theme toggle
+- Graceful error handling and loading states
+- Backend-agnostic API layer with local fallback (localStorage)
+- Clear code structure with comments and placeholders for backend integration
 
-## Getting Started
+## Quick Start
 
-In the project directory, you can run:
+- Install dependencies: `npm install`
+- Start dev server: `npm start`
+- Optionally configure backend base URL:
+  - Copy `.env.example` to `.env`
+  - Set `REACT_APP_API_BASE_URL=http://localhost:8000` (or your API)
+  - Restart dev server for changes to take effect
 
-### `npm start`
+## Project Structure
 
-Runs the app in development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- `src/services/api.js` — Generic CRUD functions (listNotes, createNote, updateNote, deleteNote).
+  - If `REACT_APP_API_BASE_URL` is unset, the service uses `localStorage` for demo purposes.
+  - Backend placeholders (expected endpoints once connected):
+    - GET `/notes` — list notes
+    - POST `/notes` — create note
+    - PATCH `/notes/:id` — update note
+    - DELETE `/notes/:id` — delete note
+- `src/hooks/useNotes.js` — Encapsulates note state and CRUD handlers for UI.
+- `src/components/` — UI components:
+  - `Navbar.jsx` — top bar with New Note + Theme toggle
+  - `Layout.jsx` — responsive two-column layout
+  - `NoteList.jsx` — searchable note list
+  - `NoteEditor.jsx` — title/content editor with auto-save and delete
+- `src/utils/format.js` — date formatting and debounce helper.
+- `src/App.js` — assembles the app.
 
-### `npm test`
+## Styling
 
-Launches the test runner in interactive watch mode.
+- Styles in `src/App.css` use CSS variables for theming.
+- Light/dark mode via `[data-theme="dark"]`.
+- Accessible controls with labels and clear focus/hover feedback.
 
-### `npm run build`
+## Testing
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- The default CRA test setup is present. You can extend tests to cover hooks and components.
 
-## Customization
+## Backend Integration Notes
 
-### Colors
+- Configure `REACT_APP_API_BASE_URL` to switch from localStorage to real API calls.
+- The `api.js` request helper uses `fetch` with JSON and normalizes errors.
+- Add auth headers or custom logic in `request()` as needed for your environment.
 
-The main brand colors are defined as CSS variables in `src/App.css`:
+## Scripts
 
-```css
-:root {
-  --kavia-orange: #E87A41;
-  --kavia-dark: #1A1A1A;
-  --text-color: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
-}
-```
+- `npm start` — Development server
+- `npm test` — Tests
+- `npm run build` — Production build
 
-### Components
+## License
 
-This template uses pure HTML/CSS components instead of a UI framework. You can find component styles in `src/App.css`. 
-
-Common components include:
-- Buttons (`.btn`, `.btn-large`)
-- Container (`.container`)
-- Navigation (`.navbar`)
-- Typography (`.title`, `.subtitle`, `.description`)
-
-## Learn More
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+MIT
